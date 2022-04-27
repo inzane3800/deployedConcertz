@@ -55,7 +55,7 @@ app.post('/results', function(req, res) {
           let item1 = item.data.resultsPage.results.location[0].metroArea;
           // console.log(item.data.resultsPage.results.location[0].metroArea.id);
           axios({
-            url: `https://api.songkick.com/api/3.0/metro_areas/${item.data.resultsPage.results.location[0].metroArea.id}/calendar.json?apikey=r00frqHrOoBaQjzs&min_date=2022-04-10&page=1&per_page=50`,
+            url: `https://api.songkick.com/api/3.0/metro_areas/${item.data.resultsPage.results.location[0].metroArea.id}/calendar.json?apikey=r00frqHrOoBaQjzs&min_date=2022-04-26&page=1&per_page=50`,
               method: 'GET',
               dataType:'json',
             })
