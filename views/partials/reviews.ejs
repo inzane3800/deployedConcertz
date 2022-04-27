@@ -33,8 +33,20 @@
                 decodeQ.push(decodeURIComponent(tweetss[i].search_metadata.query.replace(/\+/g, ' ')));
             }
         }
+        let upcomingEvents = [];
+        let index=0;
+        for(var tItem1 of itemss){
+          var tempString= "";
+          for(var tItem2 of itemss){
+            if(tItem1.venue.displayName == tItem2.venue.displayName) {
+                tempString = tempString + tItem2.displayName + "<br>";
+            }
+          }
+          upcomingEvents[index]=tempString
+          index++;
+        }
         console.log(decodeQ);
-        for(var i = itemss.length - 1; i >=0;i--){
+        for(var i = 0; i < itemss.length;i++){
             (function(index){cards = itemss[i];
                 var tweetName = "No Tweets";
                 var tweetText = " ";
@@ -45,7 +57,7 @@
                 var boulder = {lat:lat,lng:lng};
                 var twitterName ="";
                 var tweetHTML="No Tweets";
-                for(var j = itemss.length; j >=0;j--){
+                for(var j = 0; j < itemss.length;j++){
                     if(titles==decodeQ[j]){
                         if(Object.keys(tweetss[j]).length == 2){
                             if(tweetss[j].statuses.length != 0){
@@ -67,7 +79,7 @@
                     }
                 }
                 var contentString = '<h1 id="firstHeading" class=>' + cards.venue.displayName +
-                  '</h1>' + '<h4 class = "card-title">' + 'Upcoming Events: ' + cards.displayName + '</h4>' + tweetHTML;
+                  '</h1>' + '<h4 class = "card-title">' + 'Upcoming Events: ' + upcomingEvents[i] + '</h4>' + tweetHTML;
 
                 var infowindow = new google.maps.InfoWindow({
                     content: contentString,
