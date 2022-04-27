@@ -24,10 +24,10 @@ app.get('/', function(req, res) {
 
 var Twitter = require('twitter');
 var client = new Twitter({
-  consumer_key: 'jsz08yJr4Foa4oOAr0L6pvzA6',
-  consumer_secret: 'BhbdQB0JVcjNXWXEOjpJK865t9orUSe9crOPPQU1fRfPXGl1Gl',
-  access_token_key: '2289164635-IHRjiUrpkUD5Zt08dPyIXiGjkO0msCqqZBT9Tyk',
-  access_token_secret: 'tmpR2t1qNuJeZbv905i6qyAWwHbrwprku7TPFcbtMde7D'
+  consumer_key: 'DVU9UgHPf452keabX2ZTtWWK',
+  consumer_secret: 'YhVSAUAmdu9qG8VZogilmdEucq8MUYIXuM6gJACgquBW7WesL0',
+  access_token_key: '2274132691-YCkP6KGNDXjim9QdjVDDSFFyOcGWIHX3uDjPnvS',
+  access_token_secret: 'JGUC6kZXAacmJYXRM5obHnawwF79KEJiw5U3Us9wxbM2r'
 });
 
 app.post('/results', function(req, res) {
