@@ -1,9 +1,9 @@
 var Twitter = require('twitter');
 var client = new Twitter({
-  consumer_key: 'Lyk1VRpKBeUYGI8lwgZPwO2RL',
-  consumer_secret: 'aQZA7YPL1Oh7k8ap5rDddxGovZ2I41QrofF9t8yEZEiNP4vmQJ',
-  access_token_key: '612445179-AAnLexLyOvCUp5un8EwoXNGIhVpeLphYdxHArxnN',
-  access_token_secret: '6rFK26tzTyzjCBuOXy3ac9oMSeqlMUxo9Sy9tIRJf4sUq'
+  consumer_key: 'DVU9UgHPf452keabX2ZTtWWK',
+  consumer_secret: 'YhVSAUAmdu9qG8VZogilmdEucq8MUYIXuM6gJACgquBW7WesL0',
+  access_token_key: '2274132691-YCkP6KGNDXjim9QdjVDDSFFyOcGWIHX3uDjPnvS',
+  access_token_secret: 'JGUC6kZXAacmJYXRM5obHnawwF79KEJiw5U3Us9wxbM2r'
 });
 
 client.get('search/tweets', {q: 'Mission Ballroom'}, function(error, tweets, response) {
