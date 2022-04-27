@@ -1,0 +1,222 @@
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<!-- Initialize Map -->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBPgPWe-t4WQcNwZQ0DZmlkNOLMPqIn1Gg"> </script>
+<script>
+
+    function initialize() {
+        let centerCords =<%-JSON.stringify(items.item)%>;
+        let itemss =<%-JSON.stringify(items.items)%>;
+        let tweetss =<%-JSON.stringify(items.tweets)%>;
+            console.log(centerCords);
+        var mapProp = {
+            center:new google.maps.LatLng(centerCords.lat,centerCords.lng),
+            zoom:10,
+            mapTypeId:google.maps.MapTypeId.ROADMAP
+        };
+        var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+        var cards = '';
+        var decodeQ= [];
+        console.log(itemss.length);
+        for(var i = 0; i < itemss.length;i++) {
+            if(Object.keys(tweetss[i]).length == 2) {
+                decodeQ.push(decodeURIComponent(tweetss[i].search_metadata.query.replace(/\+/g, ' ')));
+            }
+        }
+        console.log(decodeQ);
+        for(var i = itemss.length - 1; i >=0;i--){
+            (function(index){cards = itemss[i];
+                var tweetName = "No Tweets";
+                var tweetText = " ";
+                var tweetUrl = "#";
+                var lat = cards.location.lat;
+                var lng = cards.location.lng;
+                var titles = cards.venue.displayName;
+                var boulder = {lat:lat,lng:lng};
+                var twitterName ="";
+                var tweetHTML="No Tweets";
+                for(var j = itemss.length; j <=0;j--){
+                    if(titles==decodeQ[j]){
+                        if(Object.keys(tweetss[j]).length == 2){
+                            if(tweetss[j].statuses.length != 0){
+                                twitterName = "@"+tweetss[j].statuses[0].user.screen_name;
+                                tweetName = tweetss[j].statuses[0].user.name;
+                                tweetText = tweetss[j].statuses[0].text;
+                                if (tweetss[j].statuses[0].entities.urls.length != 0){
+                                    tweetUrl = tweetss[j].statuses[0].entities.urls[0].url;
+                                }
+
+                            }
+                        }
+                        tweetHTML ='<a href='+tweetUrl+' target="_blank">'+'<div class="card mb-3">' + '<div class="row no-gutters">' + '<div class="col-md-4">' +
+                            '<img src="frontend/build/logo-rond-twitter.png" class="card-img" alt="...">' + '</div>' + '<div class="col-md-8">'
+                            + '<div class="card-body">' + '<h5 class="card-title">'+tweetName+ ' ' + twitterName + '</h5>' +
+                            '<p class="card-text">' + tweetText + '</p>'
+                            + '</div>' + '</div>' + '</div>'+'</a>';
+                        break;
+                    }
+                }
+                var contentString = '<h1 id="firstHeading" class=>' + cards.venue.displayName +
+                  '</h1>' + '<h4 class = "card-title">' + 'Upcoming Events: ' + cards.displayName + '</h4>' + tweetHTML;
+
+                var infowindow = new google.maps.InfoWindow({
+                    content: contentString,
+                });
+                var marker = new google.maps.Marker({
+                    position: boulder,
+                    map,
+                    title: titles,
+                });
+
+                marker.addListener("click", () => {
+                    console.log(tweetss[i]),
+                    infowindow.open({
+                        anchor: marker,
+                        map,
+                        shouldFocus: false,
+                    });
+                });
+            }(i));
+
+        }
+
+    }
+    // function concertTweets(cards){
+    //     var mapProp = {
+    //         center:new google.maps.LatLng(cards.location.lat,cards.location.lng),
+    //         zoom:14,
+    //         mapTypeId:google.maps.MapTypeId.ROADMAP
+    //     };
+    //     var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+    //     var lat = cards.location.lat;
+    //     var lng = cards.location.lng;
+    //     var titles = cards.venue.displayName;
+    //     var loc = {lat:lat,lng:lng};
+    //     const contentString = cards.venue.displayName;
+    //     var infowindow = new google.maps.InfoWindow({
+    //         content: contentString,
+    //     });
+    //     var marker = new google.maps.Marker({
+    //         position: loc,
+    //         map,
+    //         title: titles,
+    //     });
+    //     infowindow.open({
+    //         anchor: marker,
+    //         map,
+    //         shouldFocus: false,
+    //     });
+    //     marker.addListener("click", () => {
+    //         infowindow.open({
+    //             anchor: marker,
+    //             map,
+    //             shouldFocus: false,
+    //         });
+    //     });
+    // }
+    google.maps.event.addDomListener(window, 'load', initialize);
+</script>
+<head>
+    <style>
+        a:hover {
+            color: #0056b3;
+            text-decoration: none;
+        }
+        div.card.mb-3 {
+            color: #007bff;
+            text-decoration: none;
+            border-radius: 1cm;
+            background: white !important;
+            box-shadow: none !important;
+            border: 2px solid #1DA1F2 !important;
+        }
+        .card {
+            cursor: pointer;
+            border: 2px solid black;
+            border-right: 4px solid black;
+            border-radius: 0;
+            color: black;
+            box-shadow: 5px 5px 10px #e1e1e1;
+            padding: 3em 0;
+            background: linear-gradient(to left, #ffb3ff 50%, #ff4dff  50%);
+            background-size: 200%;
+            background-position: right;
+            transition: background-position 0.5s ease-out;
+        }
+        .card-icon i{
+            font-size: 3em;
+        }
+        .card:hover {
+            background-position: left;
+        }
+        ::-webkit-scrollbar{
+            display: none;
+        }
+        .gm-style .gm-style-iw-c {
+            padding-right: 12px !important;
+            padding-bottom: 12px !important;
+            background: #ffb3ff;
+        }
+    </style>
+</head>
+    <div class="" style="background-color: rgba(0,0,0)">
+      <div class="container" style="height:11vh ">
+      <p style="text-align:center;margin-bottom:-2rem">
+          <a href="/"><img src="frontend/build/coollogo_com-16152453.png" style="height:100px;" class="center"></p><a>
+    </div>
+        <div style="width: 78%; float:right">
+    <div id="googleMap" style="width:100%;height:89vh;"></div>
+        </div>
+        <div style="width: 22%;height: 89vh; float:left;overflow-y:auto">
+        <%
+        if (items.items) {
+            var cards = '';
+            <!-- Iterate the items object & update the cards variable -->
+                for(var item of items.items){
+            cards = item;
+            var perarts = [];
+            for (var part of cards.performance){
+                perarts.push(part.artist.displayName);
+            }
+        %><a href="<%=cards.uri%>" target="_blank">
+        <div class="card" style = "width:100%;background-color: #ffb2e4">
+            <div class="card-body">
+                <h4 class = "card-title">
+                    <%=cards.displayName %>
+                </h4>
+                <b>Artists: </b>
+                <p class = "card-text">
+                    <%
+                    for (var artist of perarts){ %>
+                    <%=artist%>
+                    <br>
+                    <%}%>
+                </p>
+                <b>Venue: </b>
+                <p class = "card-text">
+                    <%=cards.venue.displayName%>
+                </p>
+                <b>City: </b>
+                <p class = "card-text">
+                    <%=cards.location.city%>
+                </p>
+                <b>Date: </b>
+                <p class = "card-text">
+                    <%=cards.start.date%>
+                </p>
+            </div>
+        </div>
+            </a>
+        <% } }%>
+        </div>
+        </div>
